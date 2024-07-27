@@ -1,0 +1,12 @@
+C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.Application\bin\Debug\net8.0\Manticora.Application.deps.json
+C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.Application\bin\Debug\net8.0\Manticora.Application.dll
+C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.Application\bin\Debug\net8.0\Manticora.Application.pdb
+C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.Application\obj\Debug\net8.0\Manticora.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.Application\obj\Debug\net8.0\Manticora.Application.AssemblyInfoInputs.cache
+C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.Application\obj\Debug\net8.0\Manticora.Application.AssemblyInfo.cs
+C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.Application\obj\Debug\net8.0\Manticora.Application.csproj.CoreCompileInputs.cache
+C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.Application\obj\Debug\net8.0\Manticora.Application.sourcelink.json
+C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.Application\obj\Debug\net8.0\Manticora.Application.dll
+C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.Application\obj\Debug\net8.0\refint\Manticora.Application.dll
+C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.Application\obj\Debug\net8.0\Manticora.Application.pdb
+C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.Application\obj\Debug\net8.0\ref\Manticora.Application.dll
