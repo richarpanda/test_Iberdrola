@@ -10,6 +10,8 @@ Este proyecto implementa un juego donde dos personajes defienden una ciudad del 
 - [Diseño de la Base de Datos](#diseño-de-la-base-de-datos)
 - [Endpoints de la API](#endpoints-de-la-api)
 - [Estructura del Frontend](#estructura-del-frontend)
+- [Diagramas UML](#diagramas-uml)
+
 
 ## Características
 
@@ -31,10 +33,27 @@ Este proyecto implementa un juego donde dos personajes defienden una ciudad del 
 
 La base de datos consta de las siguientes tablas:
 
+### Diagrama de Entidad Relacion
+
+![Diagrama de Clases](docs/ERManticora.png)
+
 ## Endpoints de la API
 
 ## Estructura del Frontend
 
 El frontend de la aplicación está estructurado de la siguiente manera:
 
+## Diagramas UML
+
+### Diagrama de Casos de Uso
+
+![Diagrama de Casos de Uso](docs/CasosDeUsoUML.png)
+
+### Diagrama de Secuencia
+
+![Diagrama de Secuencia](docs/SecuenciaUML.png)
+
+### Diagrama de Estados
+
+![Diagrama de Estados](docs/EstadosUML.png)
 
