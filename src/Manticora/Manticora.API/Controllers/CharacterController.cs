@@ -16,10 +16,10 @@ namespace Manticora.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCharacters()
+        public async Task<IActionResult> GetCharacters([FromQuery] int page = 1)
         {
-            var characters = await _characterService.GetCharactersAsync();
-            return Ok(characters);
+            var characterPage = await _characterService.GetCharactersAsync(page);
+            return Ok(characterPage);
         }
 
         [HttpGet("{characterId}")]

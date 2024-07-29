@@ -12,14 +12,14 @@ namespace Manticora.Application.Services
             _characterApiService = characterApiService;
         }
 
-        public async Task<List<Character>> GetCharactersAsync()
-        {
-            return await _characterApiService.GetCharactersAsync();
-        }
-
         public async Task<Character> GetCharacterByIdAsync(int characterId)
         {
             return await _characterApiService.GetCharacterByIdAsync(characterId);
+        }
+
+        public async Task<CharacterPage> GetCharactersAsync(int page = 1)
+        {
+            return await _characterApiService.GetCharactersAsync(page);
         }
     }
 }

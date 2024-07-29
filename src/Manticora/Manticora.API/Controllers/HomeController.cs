@@ -1,4 +1,5 @@
 using Manticora.API.Models;
+using Manticora.Domain.Interfaces;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,11 +9,11 @@ namespace Manticora.API.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ICharacterService _characterService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ICharacterService characterService)
         {
-            _logger = logger;
+            _characterService = characterService;
         }
 
         public IActionResult Index()
@@ -20,7 +21,28 @@ namespace Manticora.API.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> SelectCharacter(int page = 1)
+        {
+            var characterPage = await _characterService.GetCharactersAsync(page);
+            return View(characterPage);
+        }
+
+        public IActionResult BuyWeapons()
+        {
+            return View();
+        }
+
+        public IActionResult GetLocation()
+        {
+            return View();
+        }
+
+        public IActionResult StartRounds()
+        {
+            return View();
+        }
+
+        public IActionResult Summary()
         {
             return View();
         }

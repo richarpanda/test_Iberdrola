@@ -1,8 +1,10 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    Layout = "_Layout";
+    ViewData["Title"] = "Inicio del Juego";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h2>Bienvenido a Manticora</h2>
+<p>Haz clic en el botón de abajo para iniciar el juego.</p>
+<form asp-action="SelectCharacter">
+    <button type="submit">Iniciar Juego</button>
+</form>

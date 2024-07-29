@@ -2,7 +2,7 @@
 using Manticora.Domain.Entities;
 using Manticora.Domain.Interfaces;
 using Manticora.Infrastructure.Services.CharacterModels;
-
+using System.Net.Http.Headers;
 
 namespace Manticora.Infrastructure.Services
 {
@@ -15,9 +15,9 @@ namespace Manticora.Infrastructure.Services
             _httpClient = httpClient;
         }
 
-        public async Task<List<Character>> GetCharactersAsync()
+        public async Task<CharacterPage> GetCharactersAsync(int page = 1)
         {
-            var response = await _httpClient.GetAsync("https://rickandmortyapi.com/api/character");
+            var response = await _httpClient.GetAsync($"https://rickandmortyapi.com/api/character?page={page}");
             response.EnsureSuccessStatusCode();
 
             var jsonString = await response.Content.ReadAsStringAsync();
@@ -40,7 +40,13 @@ namespace Manticora.Infrastructure.Services
                 Gold = 100  // Default value for demonstration purposes
             }).ToList();
 
-            return characters;
+            return new CharacterPage
+            {
+                Characters = characters,
+                TotalCount = characterApiResponse.Info.Count,
+                TotalPages = characterApiResponse.Info.Pages,
+                CurrentPage = page
+            };
         }
 
         public async Task<Character> GetCharacterByIdAsync(int characterId)
