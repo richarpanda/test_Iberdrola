@@ -1,0 +1,63 @@
+﻿@model Manticora.Domain.ViewModels.BuyWeaponsViewModel
+
+@{
+    ViewData["Title"] = "Comprar Armas";
+}
+
+<h2>Comprar Armas</h2>
+
+<div class="container">
+    @if (TempData["Errors"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Errors"]
+        </div>
+    }
+
+    <form asp-action="BuyWeapon" method="post">
+        <div class="row">
+            <!-- Personajes Seleccionados -->
+            <div class="col-md-6">
+                <h4>Personajes Seleccionados</h4>
+                @foreach (var character in Model.Characters)
+                {
+                    <div class="card mb-3 @((Model.SelectedDefenderId == character.DefenderId) ? "border-primary" : "")">
+                        <div class="card-body">
+                            <h5 class="card-title">@character.Name</h5>
+                            <p class="card-text">
+                                Oro disponible: @character.Gold
+                                @if (Model.PurchasedWeaponName != null && Model.SelectedDefenderId == character.DefenderId)
+                                {
+                                    <span class="badge bg-success">Compró: @Model.PurchasedWeaponName</span>
+                                }
+                            </p>
+                            <input type="radio" name="SelectedDefenderId" value="@character.DefenderId" @(Model.SelectedDefenderId == character.DefenderId ? "checked" : "") /> Seleccionar
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Armas Disponibles -->
+            <div class="col-md-6">
+                <h4>Armas Disponibles</h4>
+                <div class="list-group">
+                    @foreach (var weapon in Model.Weapons)
+                    {
+                        <div class="list-group-item">
+                            <h5 class="mb-1">@weapon.Name</h5>
+                            <p class="mb-1">Precio: @weapon.Cost oros</p>
+                            <p class="mb-1">Alcance: @weapon.Range</p>
+                            <input type="radio" name="SelectedWeaponId" value="@weapon.WeaponId" /> Comprar
+                        </div>
+                    }
+                </div>
+                <button type="submit" class="btn btn-success mt-3">Comprar</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Botón para Comenzar Juego -->
+    <div class="text-right mt-4">
+        <a href="@Url.Action("StartRounds")" class="btn btn-primary">Comenzar Juego</a>
+    </div>
+</div>
