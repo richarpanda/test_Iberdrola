@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Manticora.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+05981399568ad9e2b80a7eb82f05c6a326ac9272")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+478a73b1f40f78d2b00acb5f622207a6e4ee2db0")]
 [assembly: System.Reflection.AssemblyProductAttribute("Manticora.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Manticora.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

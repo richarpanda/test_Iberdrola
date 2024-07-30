@@ -18,12 +18,32 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/richa/Documents/GitSources/Optimissa/test_Iberdrola/src/Manticora/Manticora.API/Views/Home/BuyWeapons.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxCdXlXZWFwb25zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/richa/Documents/GitSources/Optimissa/test_Iberdrola/src/Manticora/Manticora.API/Views/Home/GetLocation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxHZXRMb2NhdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/richa/Documents/GitSources/Optimissa/test_Iberdrola/src/Manticora/Manticora.API/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/richa/Documents/GitSources/Optimissa/test_Iberdrola/src/Manticora/Manticora.API/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/richa/Documents/GitSources/Optimissa/test_Iberdrola/src/Manticora/Manticora.API/Views/Home/SelectCharacter.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTZWxlY3RDaGFyYWN0ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/richa/Documents/GitSources/Optimissa/test_Iberdrola/src/Manticora/Manticora.API/Views/Home/StartRounds.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTdGFydFJvdW5kcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/richa/Documents/GitSources/Optimissa/test_Iberdrola/src/Manticora/Manticora.API/Views/Home/Summary.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTdW1tYXJ5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/richa/Documents/GitSources/Optimissa/test_Iberdrola/src/Manticora/Manticora.API/Views/Shared/Error.cshtml]
