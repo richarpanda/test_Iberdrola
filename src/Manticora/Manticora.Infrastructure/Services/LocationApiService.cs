@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace Manticora.Infrastructure.Services
 {
-    public class LocationApiService : ILocationService
+    public class LocationApiService : ILocationApiService
     {
         private readonly HttpClient _httpClient;
 

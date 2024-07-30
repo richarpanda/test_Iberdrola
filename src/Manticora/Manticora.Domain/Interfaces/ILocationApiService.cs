@@ -2,7 +2,7 @@
 
 namespace Manticora.Domain.Interfaces
 {
-    public interface ILocationService
+    public interface ILocationApiService
     {
         Task<List<Location>> GetLocationsAsync();
     }

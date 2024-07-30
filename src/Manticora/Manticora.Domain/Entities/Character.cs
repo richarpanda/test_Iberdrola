@@ -2,6 +2,7 @@
 {
     public class Character
     {
+        public int DefenderId { get; set; }
         public int CharacterId { get; set; }
         public string Name { get; set; }
         public string Status { get; set; }

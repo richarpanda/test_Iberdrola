@@ -8,9 +8,9 @@ namespace Manticora.Application.Services
 {
     public class LocationService
     {
-        private readonly ILocationService _locationService;
+        private readonly ILocationApiService _locationService;
 
-        public LocationService(ILocationService locationService)
+        public LocationService(ILocationApiService locationService)
         {
             _locationService = locationService;
         }

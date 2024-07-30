@@ -6,7 +6,7 @@ using System.Net.Http.Headers;
 
 namespace Manticora.Infrastructure.Services
 {
-    public class CharacterApiService : ICharacterService
+    public class CharacterApiService : ICharacterApiService
     {
         private readonly HttpClient _httpClient;
 

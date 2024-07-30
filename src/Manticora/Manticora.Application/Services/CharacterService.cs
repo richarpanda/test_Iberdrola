@@ -5,9 +5,9 @@ namespace Manticora.Application.Services
 {
     public class CharacterService : ICharacterService
     {
-        private readonly ICharacterService _characterApiService;
+        private readonly ICharacterApiService _characterApiService;
 
-        public CharacterService(ICharacterService characterApiService)
+        public CharacterService(ICharacterApiService characterApiService)
         {
             _characterApiService = characterApiService;
         }
