@@ -1,35 +1,40 @@
-﻿using Manticora.Domain.Entities;
+﻿using Manticora.Domain.Entities.Db;
 using Manticora.Domain.Interfaces;
-
+using Manticora.Infrastructure.Services.LocationModels;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
-namespace Manticora.Infrastructure.Services
+public class LocationApiService : ILocationApiService
 {
-    public class LocationApiService : ILocationApiService
+    private readonly HttpClient _httpClient;
+    private readonly ManticoraDbContext _context;
+
+    public LocationApiService(HttpClient httpClient, ManticoraDbContext context)
     {
-        private readonly HttpClient _httpClient;
-
-        public LocationApiService(HttpClient httpClient)
-        {
-            _httpClient = httpClient;
-        }
-
-        public async Task<List<Location>> GetLocationsAsync()
-        {
-            var response = await _httpClient.GetAsync("https://rickandmortyapi.com/api/location");
-            response.EnsureSuccessStatusCode();
-
-            var jsonString = await response.Content.ReadAsStringAsync();
-            var locationResponse = JsonSerializer.Deserialize<LocationResponse>(jsonString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
-            return locationResponse.Results;
-        }
+        _httpClient = httpClient;
+        _context = context;
     }
 
-    public class LocationResponse
+    public async Task<AttackingNation> GetRandomLocationAsync()
     {
-        [JsonPropertyName("results")]
-        public List<Location> Results { get; set; }
+        var response = await _httpClient.GetAsync("https://rickandmortyapi.com/api/location");
+        response.EnsureSuccessStatusCode();
+        var jsonString = await response.Content.ReadAsStringAsync();
+        var locations = JsonSerializer.Deserialize<LocationApiResponse>(jsonString);
+
+        var random = new Random();
+        var selectedLocation = locations.Results[random.Next(locations.Results.Count)];
+
+        var attackingNation = new AttackingNation
+        {
+            Name = selectedLocation.Name,
+            Type = selectedLocation.Type,
+            Dimension = selectedLocation.Dimension,
+            Population = selectedLocation.Residents.Count
+        };
+
+        _context.AttackingNations.Add(attackingNation);
+        await _context.SaveChangesAsync();
+
+        return attackingNation;
     }
 }

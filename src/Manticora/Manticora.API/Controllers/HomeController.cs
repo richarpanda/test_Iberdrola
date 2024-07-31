@@ -1,5 +1,4 @@
 using Manticora.API.Models;
-using Manticora.Domain.Entities;
 using Manticora.Domain.Interfaces;
 using Manticora.Domain.ViewModels;
 
@@ -16,12 +15,16 @@ namespace Manticora.API.Controllers
         private readonly ICharacterService _characterService;
         private readonly IDefenderService _defenderService;
         private readonly IWeaponService _weaponService;
+        private readonly IGameService _gameService;
+        private readonly ILocationApiService _locationApiService;
 
-        public HomeController(ICharacterService characterService, IDefenderService defenderService, IWeaponService weaponService)
+        public HomeController(ICharacterService characterService, IDefenderService defenderService, IWeaponService weaponService, IGameService gameService, ILocationApiService locationApiService)
         {
             _characterService = characterService;
             _defenderService = defenderService;
             _weaponService = weaponService;
+            _gameService = gameService;
+            _locationApiService = locationApiService;
         }
 
         public IActionResult Index()
@@ -44,12 +47,12 @@ namespace Manticora.API.Controllers
                 return RedirectToAction("SelectCharacter");
             }
 
-            List<Character> characterList = new List<Character>();
+            List<CharacterViewModel> characterList = new List<CharacterViewModel>();
 
             foreach (var characterId in selectedCharacterIds)
             {
                 var defenderId = await _defenderService.AddDefenderAsync(characterId, 100);
-                characterList.Add(new Character() { CharacterId = characterId, DefenderId = defenderId });
+                characterList.Add(new CharacterViewModel() { CharacterId = characterId, DefenderId = defenderId });
             }
 
             var viewModel = new BuyWeaponsViewModel
@@ -75,22 +78,22 @@ namespace Manticora.API.Controllers
             if (viewModel == null || viewModel.Characters == null || viewModel.Characters.Count == 0)
             {
                 viewModel = new BuyWeaponsViewModel();
-                viewModel.Characters = new List<Character>();
+                viewModel.Characters = new List<CharacterViewModel>();
                 foreach (var characterId in buyWeaponsViewModel.Characters.Select(c => c.CharacterId))
                 {
-                    var character = new Character();
+                    var character = new CharacterViewModel();
                     character = await _characterService.GetCharacterByIdAsync(characterId);
                     character.DefenderId = buyWeaponsViewModel.Characters.Where(x => x.CharacterId == characterId).FirstOrDefault().DefenderId;
 
                     viewModel.Characters.Add(character);
                 }
-                viewModel.Weapons = await _weaponService.GetWeaponsAsync();
+
+                viewModel.Weapons = await GetViewModelWeapons();
             }
             TempData["BuyWeaponsViewModel"] = TempData["BuyWeaponsViewModel"];
 
             return View(viewModel);
         }
-
 
         [HttpPost]
         public async Task<IActionResult> BuyWeapon(int selectedDefenderId, int selectedWeaponId)
@@ -136,53 +139,51 @@ namespace Manticora.API.Controllers
             }
         }
 
-
-        private async Task<BuyWeaponsViewModel> GetBuyWeaponsViewModelAsync()
+        public async Task<IActionResult> StartRounds(int gameId)
         {
+            var attackingNation = await _locationApiService.GetRandomLocationAsync();
+            var game = await _gameService.StartNewGameAsync(attackingNation.AttackingNationId);
+
             var buyWeaponsViewModel = new BuyWeaponsViewModel();
-
             if (TempData["BuyWeaponsViewModel"] != null)
-            {
                 buyWeaponsViewModel = JsonConvert.DeserializeObject<BuyWeaponsViewModel>((string)TempData["BuyWeaponsViewModel"]);
-            }
 
-            if (buyWeaponsViewModel.Characters == null || buyWeaponsViewModel.Characters.Count == 0)
+            var gameState = await _gameService.GetGameStateAsync(game.GameId);
+
+            var lstDefenders = new List<DefenderStatus>();
+            buyWeaponsViewModel.Characters.ForEach(character => {
+                var defender = new DefenderStatus();
+                defender.Name = character.Name;
+                defender.Species = character.Species;
+                defender.Type = character.Type;
+                defender.Gender = character.Gender;
+                lstDefenders.Add(defender);
+            });
+
+            var gameStateViewMdel = new GameStateViewMdel()
             {
-                buyWeaponsViewModel.Characters = new List<Character>();
-            }
+                GameId = gameState.GameId,
+                Round = gameState.Round,
+                ManticoreHealth = gameState.ManticoreHealth,
+                CityHealth = gameState.CityHealth,
+                AttackingNationName = gameState.AttackingNation.Name,
+                AttackingNationType = gameState.AttackingNation.Type,
+                AttackingNationPopulation = gameState.AttackingNation.Population,
+                AttackingNationDimension = gameState.AttackingNation.Dimension,
+                Defenders = lstDefenders
+            };
 
-            var characters = new List<Character>();
-
-            foreach (var characterId in buyWeaponsViewModel.Characters.Select(c => c.CharacterId).Distinct())
-            {
-                var character = await _characterService.GetCharacterByIdAsync(characterId);
-                if (character != null)
-                {
-                    character.DefenderId = buyWeaponsViewModel.Characters.FirstOrDefault(x => x.CharacterId == characterId)?.DefenderId ?? 0;
-                    characters.Add(character);
-                }
-            }
-            buyWeaponsViewModel.Characters = characters;
-            buyWeaponsViewModel.Weapons = await _weaponService.GetWeaponsAsync();
-
-            // Mantener el nombre del arma comprada en el ViewModel si está disponible
-            if (TempData["PurchasedWeaponName"] != null)
-            {
-                buyWeaponsViewModel.PurchasedWeaponName = (string)TempData["PurchasedWeaponName"];
-            }
-
-            TempData["BuyWeaponsViewModel"] = JsonConvert.SerializeObject(buyWeaponsViewModel);
-
-            return buyWeaponsViewModel;
+            return View(gameStateViewMdel);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Attack(int defenderId, int gameId, int weaponId)
+        {
+            var attackResult = await _gameService.ProcessAttackAsync(defenderId, gameId, weaponId);
+            return Json(new { success = attackResult != null, data = attackResult, message = attackResult?.StatusMessage });
+        }
 
         public IActionResult GetLocation()
-        {
-            return View();
-        }
-
-        public IActionResult StartRounds()
         {
             return View();
         }
@@ -197,5 +198,65 @@ namespace Manticora.API.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        #region Private Methods 
+        
+        private async Task<BuyWeaponsViewModel> GetBuyWeaponsViewModelAsync()
+        {
+            var buyWeaponsViewModel = new BuyWeaponsViewModel();
+
+            if (TempData["BuyWeaponsViewModel"] != null)
+            {
+                buyWeaponsViewModel = JsonConvert.DeserializeObject<BuyWeaponsViewModel>((string)TempData["BuyWeaponsViewModel"]);
+            }
+
+            if (buyWeaponsViewModel.Characters == null || buyWeaponsViewModel.Characters.Count == 0)
+            {
+                buyWeaponsViewModel.Characters = new List<CharacterViewModel>();
+            }
+
+            var characters = new List<CharacterViewModel>();
+
+            foreach (var characterId in buyWeaponsViewModel.Characters.Select(c => c.CharacterId).Distinct())
+            {
+                var character = await _characterService.GetCharacterByIdAsync(characterId);
+                if (character != null)
+                {
+                    character.DefenderId = buyWeaponsViewModel.Characters.FirstOrDefault(x => x.CharacterId == characterId)?.DefenderId ?? 0;
+                    characters.Add(character);
+                }
+            }
+            buyWeaponsViewModel.Characters = characters;
+            buyWeaponsViewModel.Weapons = await GetViewModelWeapons();
+
+            if (TempData["PurchasedWeaponName"] != null)
+            {
+                buyWeaponsViewModel.PurchasedWeaponName = (string)TempData["PurchasedWeaponName"];
+            }
+
+            TempData["BuyWeaponsViewModel"] = JsonConvert.SerializeObject(buyWeaponsViewModel);
+
+            return buyWeaponsViewModel;
+        }
+
+        private async Task<List<WeaponViewModel>> GetViewModelWeapons()
+        {
+            var weapons = await _weaponService.GetWeaponsAsync();
+            var weaponViewModelLst = new List<WeaponViewModel>();
+            foreach (var weapon in weapons)
+            {
+                var weaponViewModel = new WeaponViewModel()
+                {
+                    WeaponId = weapon.WeaponId,
+                    Name = weapon.Name,
+                    Cost = weapon.Cost,
+                    Range = weapon.Range
+                };
+                weaponViewModelLst.Add(weaponViewModel);
+            }
+
+            return weaponViewModelLst;
+        }
+        #endregion
     }
 }

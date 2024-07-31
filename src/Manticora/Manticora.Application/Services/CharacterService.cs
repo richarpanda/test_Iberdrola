@@ -1,5 +1,6 @@
 ﻿using Manticora.Domain.Entities;
 using Manticora.Domain.Interfaces;
+using Manticora.Domain.ViewModels;
 
 namespace Manticora.Application.Services
 {
@@ -12,7 +13,7 @@ namespace Manticora.Application.Services
             _characterApiService = characterApiService;
         }
 
-        public async Task<Character> GetCharacterByIdAsync(int characterId)
+        public async Task<CharacterViewModel> GetCharacterByIdAsync(int characterId)
         {
             return await _characterApiService.GetCharacterByIdAsync(characterId);
         }

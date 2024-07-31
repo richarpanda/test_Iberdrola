@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Manticora.Infrastructure.Migrations
 {
     [DbContext(typeof(ManticoraDbContext))]
-    [Migration("20240730014733_migrations")]
-    partial class migrations
+    [Migration("20240730235121_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,9 @@ namespace Manticora.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("AttackDateTime")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("CityDamage")
                         .HasColumnType("INTEGER");
 
@@ -37,7 +40,7 @@ namespace Manticora.Infrastructure.Migrations
                     b.Property<int>("GameId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ManticoraDamage")
+                    b.Property<int>("ManticoreDamage")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Round")
@@ -57,6 +60,32 @@ namespace Manticora.Infrastructure.Migrations
                     b.ToTable("Attacks");
                 });
 
+            modelBuilder.Entity("Manticora.Domain.Entities.Db.AttackingNation", b =>
+                {
+                    b.Property<int>("AttackingNationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Dimension")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Population")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("AttackingNationId");
+
+                    b.ToTable("AttackingNations");
+                });
+
             modelBuilder.Entity("Manticora.Domain.Entities.Db.Defender", b =>
                 {
                     b.Property<int>("DefenderId")
@@ -66,10 +95,15 @@ namespace Manticora.Infrastructure.Migrations
                     b.Property<int>("CharacterId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("GameId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("Gold")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("DefenderId");
+
+                    b.HasIndex("GameId");
 
                     b.ToTable("Defenders");
                 });
@@ -80,20 +114,28 @@ namespace Manticora.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("AttackingNation")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("AttackingNationId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("CityHealth")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ManticoraHealth")
+                    b.Property<string>("GameStatus")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ManticoreHealth")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Round")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("StartDateTime")
                         .HasColumnType("TEXT");
 
                     b.HasKey("GameId");
+
+                    b.HasIndex("AttackingNationId");
 
                     b.ToTable("Games");
                 });
@@ -183,19 +225,19 @@ namespace Manticora.Infrastructure.Migrations
             modelBuilder.Entity("Manticora.Domain.Entities.Db.Attack", b =>
                 {
                     b.HasOne("Manticora.Domain.Entities.Db.Defender", "Defender")
-                        .WithMany()
+                        .WithMany("Attacks")
                         .HasForeignKey("DefenderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Manticora.Domain.Entities.Db.Game", "Game")
-                        .WithMany()
+                        .WithMany("Attacks")
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Manticora.Domain.Entities.Db.Weapon", "Weapon")
-                        .WithMany()
+                        .WithMany("Attacks")
                         .HasForeignKey("WeaponId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -207,16 +249,34 @@ namespace Manticora.Infrastructure.Migrations
                     b.Navigation("Weapon");
                 });
 
+            modelBuilder.Entity("Manticora.Domain.Entities.Db.Defender", b =>
+                {
+                    b.HasOne("Manticora.Domain.Entities.Db.Game", null)
+                        .WithMany("Defenders")
+                        .HasForeignKey("GameId");
+                });
+
+            modelBuilder.Entity("Manticora.Domain.Entities.Db.Game", b =>
+                {
+                    b.HasOne("Manticora.Domain.Entities.Db.AttackingNation", "AttackingNation")
+                        .WithMany("Games")
+                        .HasForeignKey("AttackingNationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AttackingNation");
+                });
+
             modelBuilder.Entity("Manticora.Domain.Entities.Db.Inventory", b =>
                 {
                     b.HasOne("Manticora.Domain.Entities.Db.Defender", "Defender")
-                        .WithMany()
+                        .WithMany("Inventories")
                         .HasForeignKey("DefenderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Manticora.Domain.Entities.Db.Weapon", "Weapon")
-                        .WithMany()
+                        .WithMany("Inventories")
                         .HasForeignKey("WeaponId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -224,6 +284,32 @@ namespace Manticora.Infrastructure.Migrations
                     b.Navigation("Defender");
 
                     b.Navigation("Weapon");
+                });
+
+            modelBuilder.Entity("Manticora.Domain.Entities.Db.AttackingNation", b =>
+                {
+                    b.Navigation("Games");
+                });
+
+            modelBuilder.Entity("Manticora.Domain.Entities.Db.Defender", b =>
+                {
+                    b.Navigation("Attacks");
+
+                    b.Navigation("Inventories");
+                });
+
+            modelBuilder.Entity("Manticora.Domain.Entities.Db.Game", b =>
+                {
+                    b.Navigation("Attacks");
+
+                    b.Navigation("Defenders");
+                });
+
+            modelBuilder.Entity("Manticora.Domain.Entities.Db.Weapon", b =>
+                {
+                    b.Navigation("Attacks");
+
+                    b.Navigation("Inventories");
                 });
 #pragma warning restore 612, 618
         }

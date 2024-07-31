@@ -1,10 +1,48 @@
-﻿@{
-    Layout = "_Layout";
+﻿@using Manticora.Domain.ViewModels
+@model GameStateViewMdel
+
+@{
     ViewData["Title"] = "Iniciar Rondas";
 }
 
 <h2>Iniciar Rondas</h2>
-<!-- Aquí iría el código para iniciar las rondas del juego -->
-<form asp-action="Summary">
-    <button type="submit">Continuar</button>
-</form>
+
+<div>
+    <h3>Attacking Nation: @Model.AttackingNationName</h3>
+    <p>Type: @Model.AttackingNationType</p>
+    <p>Dimension: @Model.AttackingNationDimension</p>
+    <p>Population: @Model.AttackingNationPopulation</p>
+</div>
+
+<div>
+    <h3>Defenders</h3>
+    @foreach (var defender in Model.Defenders)
+    {
+        <div>
+            <h4>@defender.Name</h4>
+            <p>Species: @defender.Species</p>
+            <p>Type: @defender.Type</p>
+            <p>Gender: @defender.Gender</p>
+            <p>Remaining Shots: @defender.RemainingShots</p>
+            @* <ul>
+                @foreach (var weapon in defender.Inventory)
+                {
+                    <li>@weapon.Name - Range: @weapon.Range</li>
+                }
+            </ul> *@
+            <button class="btn btn-primary" onclick="attack(@defender.DefenderId)">Attack</button>
+        </div>
+    }
+</div>
+
+<script>
+    function attack(defenderId) {
+        $.post('@Url.Action("Attack", "Home")', { defenderId: defenderId, gameId: @Model.GameId, weaponId: 1 }, function(data) {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert(data.message);
+            }
+        });
+    }
+</script>

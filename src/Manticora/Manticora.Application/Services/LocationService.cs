@@ -1,8 +1,6 @@
 ﻿using Manticora.Domain.Entities;
+using Manticora.Domain.Entities.Db;
 using Manticora.Domain.Interfaces;
-
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Manticora.Application.Services
 {
@@ -15,9 +13,9 @@ namespace Manticora.Application.Services
             _locationService = locationService;
         }
 
-        public async Task<List<Location>> GetLocationsAsync()
+        public async Task<AttackingNation> GetLocationsAsync()
         {
-            return await _locationService.GetLocationsAsync();
+            return await _locationService.GetRandomLocationAsync();
         }
     }
 }

@@ -24,5 +24,8 @@ namespace Manticora.Domain.Entities
 
         [JsonPropertyName("created")]
         public string Created { get; set; }
+
+        [JsonPropertyName("Population")]
+        public int Population { get; set; }
     }
 }
