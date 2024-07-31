@@ -1,4 +1,6 @@
-﻿namespace Manticora.Infrastructure.Services.CharacterModels
+﻿using Manticora.Domain.Entities;
+
+namespace Manticora.Infrastructure.Services.CharacterModels
 {
     public class CharacterApiModel
     {

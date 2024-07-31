@@ -1,9 +1,9 @@
-﻿using Manticora.Domain.Entities;
+﻿using Manticora.Domain.Entities.Db;
 
 namespace Manticora.Domain.Interfaces
 {
     public interface ILocationApiService
     {
-        Task<List<Location>> GetLocationsAsync();
+        Task<AttackingNation> GetRandomLocationAsync();
     }
 }

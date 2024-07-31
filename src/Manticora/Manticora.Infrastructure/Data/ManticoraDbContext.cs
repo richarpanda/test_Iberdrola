@@ -14,6 +14,7 @@ public class ManticoraDbContext : DbContext
     public DbSet<Inventory> Inventories { get; set; }
     public DbSet<Game> Games { get; set; }
     public DbSet<Attack> Attacks { get; set; }
+    public DbSet<AttackingNation> AttackingNations { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -21,28 +22,30 @@ public class ManticoraDbContext : DbContext
 
         modelBuilder.Entity<Inventory>()
             .HasOne(i => i.Defender)
-            .WithMany()
-            .HasForeignKey(i => i.DefenderId);
+            .WithMany(d => d.Inventories);
 
         modelBuilder.Entity<Inventory>()
             .HasOne(i => i.Weapon)
-            .WithMany()
-            .HasForeignKey(i => i.WeaponId);
+            .WithMany(w => w.Inventories);
 
         modelBuilder.Entity<Attack>()
             .HasOne(a => a.Game)
-            .WithMany()
-            .HasForeignKey(a => a.GameId);
+            .WithMany(g => g.Attacks);
 
         modelBuilder.Entity<Attack>()
             .HasOne(a => a.Defender)
-            .WithMany()
-            .HasForeignKey(a => a.DefenderId);
+            .WithMany(d => d.Attacks);
 
         modelBuilder.Entity<Attack>()
             .HasOne(a => a.Weapon)
-            .WithMany()
-            .HasForeignKey(a => a.WeaponId);
+            .WithMany(w => w.Attacks);
+
+        modelBuilder.Entity<AttackingNation>()
+            .HasKey(an => an.AttackingNationId);
+
+        modelBuilder.Entity<Game>()
+            .HasOne(g => g.AttackingNation)
+            .WithMany(an => an.Games);
 
         modelBuilder.Entity<Weapon>().HasData(
             new Weapon { WeaponId = 1, Name = "Gran cañón", Cost = 80, Range = 50 },

@@ -8,39 +8,25 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Manticora.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class migrations : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Defenders",
+                name: "AttackingNations",
                 columns: table => new
                 {
-                    DefenderId = table.Column<int>(type: "INTEGER", nullable: false)
+                    AttackingNationId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    CharacterId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Gold = table.Column<int>(type: "INTEGER", nullable: false)
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Type = table.Column<string>(type: "TEXT", nullable: false),
+                    Dimension = table.Column<string>(type: "TEXT", nullable: false),
+                    Population = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Defenders", x => x.DefenderId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Games",
-                columns: table => new
-                {
-                    GameId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    AttackingNation = table.Column<string>(type: "TEXT", nullable: false),
-                    CityHealth = table.Column<int>(type: "INTEGER", nullable: false),
-                    ManticoraHealth = table.Column<int>(type: "INTEGER", nullable: false),
-                    StartDateTime = table.Column<DateTime>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Games", x => x.GameId);
+                    table.PrimaryKey("PK_AttackingNations", x => x.AttackingNationId);
                 });
 
             migrationBuilder.CreateTable(
@@ -59,6 +45,50 @@ namespace Manticora.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Games",
+                columns: table => new
+                {
+                    GameId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    AttackingNationId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CityHealth = table.Column<int>(type: "INTEGER", nullable: false),
+                    ManticoreHealth = table.Column<int>(type: "INTEGER", nullable: false),
+                    StartDateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    GameStatus = table.Column<string>(type: "TEXT", nullable: false),
+                    Round = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Games", x => x.GameId);
+                    table.ForeignKey(
+                        name: "FK_Games_AttackingNations_AttackingNationId",
+                        column: x => x.AttackingNationId,
+                        principalTable: "AttackingNations",
+                        principalColumn: "AttackingNationId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Defenders",
+                columns: table => new
+                {
+                    DefenderId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CharacterId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Gold = table.Column<int>(type: "INTEGER", nullable: false),
+                    GameId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Defenders", x => x.DefenderId);
+                    table.ForeignKey(
+                        name: "FK_Defenders_Games_GameId",
+                        column: x => x.GameId,
+                        principalTable: "Games",
+                        principalColumn: "GameId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Attacks",
                 columns: table => new
                 {
@@ -68,9 +98,10 @@ namespace Manticora.Infrastructure.Migrations
                     DefenderId = table.Column<int>(type: "INTEGER", nullable: false),
                     WeaponId = table.Column<int>(type: "INTEGER", nullable: false),
                     Distance = table.Column<int>(type: "INTEGER", nullable: false),
-                    ManticoraDamage = table.Column<int>(type: "INTEGER", nullable: false),
+                    ManticoreDamage = table.Column<int>(type: "INTEGER", nullable: false),
                     CityDamage = table.Column<int>(type: "INTEGER", nullable: false),
-                    Round = table.Column<int>(type: "INTEGER", nullable: false)
+                    Round = table.Column<int>(type: "INTEGER", nullable: false),
+                    AttackDateTime = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -150,6 +181,16 @@ namespace Manticora.Infrastructure.Migrations
                 column: "WeaponId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Defenders_GameId",
+                table: "Defenders",
+                column: "GameId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Games_AttackingNationId",
+                table: "Games",
+                column: "AttackingNationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Inventories_DefenderId",
                 table: "Inventories",
                 column: "DefenderId");
@@ -170,13 +211,16 @@ namespace Manticora.Infrastructure.Migrations
                 name: "Inventories");
 
             migrationBuilder.DropTable(
-                name: "Games");
-
-            migrationBuilder.DropTable(
                 name: "Defenders");
 
             migrationBuilder.DropTable(
                 name: "Weapons");
+
+            migrationBuilder.DropTable(
+                name: "Games");
+
+            migrationBuilder.DropTable(
+                name: "AttackingNations");
         }
     }
 }

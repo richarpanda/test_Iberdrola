@@ -3,6 +3,7 @@ using Manticora.Domain.Entities;
 using Manticora.Domain.Interfaces;
 using Manticora.Infrastructure.Services.CharacterModels;
 using System.Net.Http.Headers;
+using Manticora.Domain.ViewModels;
 
 namespace Manticora.Infrastructure.Services
 {
@@ -23,7 +24,7 @@ namespace Manticora.Infrastructure.Services
             var jsonString = await response.Content.ReadAsStringAsync();
             var characterApiResponse = JsonSerializer.Deserialize<CharacterApiResponse>(jsonString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-            var characters = characterApiResponse.Results.Select(c => new Character
+            var characters = characterApiResponse.Results.Select(c => new CharacterViewModel
             {
                 CharacterId = c.Id,
                 Name = c.Name,
@@ -49,7 +50,7 @@ namespace Manticora.Infrastructure.Services
             };
         }
 
-        public async Task<Character> GetCharacterByIdAsync(int characterId)
+        public async Task<CharacterViewModel> GetCharacterByIdAsync(int characterId)
         {
             var response = await _httpClient.GetAsync($"https://rickandmortyapi.com/api/character/{characterId}");
             response.EnsureSuccessStatusCode();
@@ -57,7 +58,7 @@ namespace Manticora.Infrastructure.Services
             var jsonString = await response.Content.ReadAsStringAsync();
             var characterApiModel = JsonSerializer.Deserialize<CharacterApiModel>(jsonString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-            var character = new Character
+            var character = new CharacterViewModel
             {
                 CharacterId = characterApiModel.Id,
                 Name = characterApiModel.Name,
