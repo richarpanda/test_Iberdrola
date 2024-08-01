@@ -10,6 +10,7 @@
         public string AttackingNationType { get; set; }
         public string AttackingNationDimension { get; set; }
         public int AttackingNationPopulation { get; set; }
-        public List<DefenderStatus> Defenders { get; set; }
+        public List<DefenderStatusViewModel> Defenders { get; set; }
+        public AttackResultViewModel AttackResult { get; set; }
     }
 }

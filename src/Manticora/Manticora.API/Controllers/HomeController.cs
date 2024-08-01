@@ -1,8 +1,12 @@
 using Manticora.API.Models;
+using Manticora.Domain.Entities.Db;
 using Manticora.Domain.Interfaces;
 using Manticora.Domain.ViewModels;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 using Newtonsoft.Json;
 
@@ -17,14 +21,22 @@ namespace Manticora.API.Controllers
         private readonly IWeaponService _weaponService;
         private readonly IGameService _gameService;
         private readonly ILocationApiService _locationApiService;
+        private readonly ICompositeViewEngine _viewEngine;
 
-        public HomeController(ICharacterService characterService, IDefenderService defenderService, IWeaponService weaponService, IGameService gameService, ILocationApiService locationApiService)
+        public HomeController(
+            ICharacterService characterService,
+            IDefenderService defenderService,
+            IWeaponService weaponService,
+            IGameService gameService,
+            ILocationApiService locationApiService,
+            ICompositeViewEngine viewEngine)
         {
             _characterService = characterService;
             _defenderService = defenderService;
             _weaponService = weaponService;
             _gameService = gameService;
             _locationApiService = locationApiService;
+            _viewEngine = viewEngine;
         }
 
         public IActionResult Index()
@@ -71,9 +83,7 @@ namespace Manticora.API.Controllers
                 viewModel.SelectedDefenderId = (int)TempData["SelectedDefenderId"];
             }
 
-            var buyWeaponsViewModel = new BuyWeaponsViewModel();
-            if (TempData["BuyWeaponsViewModel"] != null)
-                buyWeaponsViewModel = JsonConvert.DeserializeObject<BuyWeaponsViewModel>((string)TempData["BuyWeaponsViewModel"]);
+            BuyWeaponsViewModel? buyWeaponsViewModel = GetBuyWeaponsViewModel();
 
             if (viewModel == null || viewModel.Characters == null || viewModel.Characters.Count == 0)
             {
@@ -144,34 +154,12 @@ namespace Manticora.API.Controllers
             var attackingNation = await _locationApiService.GetRandomLocationAsync();
             var game = await _gameService.StartNewGameAsync(attackingNation.AttackingNationId);
 
-            var buyWeaponsViewModel = new BuyWeaponsViewModel();
-            if (TempData["BuyWeaponsViewModel"] != null)
-                buyWeaponsViewModel = JsonConvert.DeserializeObject<BuyWeaponsViewModel>((string)TempData["BuyWeaponsViewModel"]);
+            BuyWeaponsViewModel? buyWeaponsViewModel = GetBuyWeaponsViewModel();
 
             var gameState = await _gameService.GetGameStateAsync(game.GameId);
-
-            var lstDefenders = new List<DefenderStatus>();
-            buyWeaponsViewModel.Characters.ForEach(character => {
-                var defender = new DefenderStatus();
-                defender.Name = character.Name;
-                defender.Species = character.Species;
-                defender.Type = character.Type;
-                defender.Gender = character.Gender;
-                lstDefenders.Add(defender);
-            });
-
-            var gameStateViewMdel = new GameStateViewMdel()
-            {
-                GameId = gameState.GameId,
-                Round = gameState.Round,
-                ManticoreHealth = gameState.ManticoreHealth,
-                CityHealth = gameState.CityHealth,
-                AttackingNationName = gameState.AttackingNation.Name,
-                AttackingNationType = gameState.AttackingNation.Type,
-                AttackingNationPopulation = gameState.AttackingNation.Population,
-                AttackingNationDimension = gameState.AttackingNation.Dimension,
-                Defenders = lstDefenders
-            };
+            var lstDefenders = MapBuyWeponsViewModelToDefenderStatus(buyWeaponsViewModel);
+            var attackResult = new AttackResultViewModel();
+            var gameStateViewMdel = MapGameStateToViewModel(gameState, lstDefenders, attackResult);
 
             return View(gameStateViewMdel);
         }
@@ -180,17 +168,18 @@ namespace Manticora.API.Controllers
         public async Task<IActionResult> Attack(int defenderId, int gameId, int weaponId)
         {
             var attackResult = await _gameService.ProcessAttackAsync(defenderId, gameId, weaponId);
-            return Json(new { success = attackResult != null, data = attackResult, message = attackResult?.StatusMessage });
-        }
+            if (attackResult != null)
+            {
+                var partialView = await this.RenderViewAsync("_AttackResult", attackResult, true);
+                return Json(new
+                {
+                    success = true,
+                    partialView = partialView,
+                    remainingShots = attackResult.RemainingShots
+                });
+            }
 
-        public IActionResult GetLocation()
-        {
-            return View();
-        }
-
-        public IActionResult Summary()
-        {
-            return View();
+            return Json(new { success = false, message = "No se pudo procesar el ataque." });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -200,7 +189,15 @@ namespace Manticora.API.Controllers
         }
 
         #region Private Methods 
-        
+        private BuyWeaponsViewModel? GetBuyWeaponsViewModel()
+        {
+            var buyWeaponsViewModel = new BuyWeaponsViewModel();
+            if (TempData["BuyWeaponsViewModel"] != null)
+                buyWeaponsViewModel = JsonConvert.DeserializeObject<BuyWeaponsViewModel>((string)TempData["BuyWeaponsViewModel"]);
+
+            TempData["BuyWeaponsViewModel"] = TempData["BuyWeaponsViewModel"];
+            return buyWeaponsViewModel;
+        }
         private async Task<BuyWeaponsViewModel> GetBuyWeaponsViewModelAsync()
         {
             var buyWeaponsViewModel = new BuyWeaponsViewModel();
@@ -256,6 +253,58 @@ namespace Manticora.API.Controllers
             }
 
             return weaponViewModelLst;
+        }
+
+        private List<DefenderStatusViewModel> MapBuyWeponsViewModelToDefenderStatus(BuyWeaponsViewModel? buyWeaponsViewModel)
+        {
+            var lstDefenders = new List<DefenderStatusViewModel>();
+            buyWeaponsViewModel.Characters.ForEach(character =>
+            {
+                var defender = new DefenderStatusViewModel();
+                defender.DefenderId = character.DefenderId;
+                defender.Name = character.Name;
+                defender.Species = character.Species;
+                defender.Type = character.Type;
+                defender.Gender = character.Gender;
+                defender.RemainingShots = 5;
+                defender.Inventory = _defenderService.GetWeaponsByDefenderIdAsync(character.DefenderId) ?? new List<Weapon>();
+                lstDefenders.Add(defender);
+            });
+            return lstDefenders;
+        }
+
+        private static GameStateViewMdel MapGameStateToViewModel(Game gameState, List<DefenderStatusViewModel> lstDefenders, AttackResultViewModel attackResult)
+        {
+            return new GameStateViewMdel()
+            {
+                GameId = gameState.GameId,
+                Round = gameState.Round,
+                ManticoreHealth = gameState.ManticoreHealth,
+                CityHealth = gameState.CityHealth,
+                AttackingNationName = gameState.AttackingNation == null ? string.Empty : gameState.AttackingNation.Name,
+                AttackingNationType = gameState.AttackingNation == null ? string.Empty : gameState.AttackingNation.Type,
+                AttackingNationPopulation = gameState.AttackingNation == null ? 0 : gameState.AttackingNation.Population,
+                AttackingNationDimension = gameState.AttackingNation == null ? string.Empty : gameState.AttackingNation.Dimension,
+                Defenders = lstDefenders,
+                AttackResult = attackResult
+            };
+        }
+
+        private async Task<string> RenderViewAsync<TModel>(string viewName, TModel model, bool partial = false)
+        {
+            var actionContext = new ActionContext(HttpContext, RouteData, ControllerContext.ActionDescriptor, ModelState);
+            using (var sw = new StringWriter())
+            {
+                var viewResult = _viewEngine.FindView(actionContext, viewName, !partial);
+                if (viewResult.View == null)
+                {
+                    throw new ArgumentNullException($"View {viewName} not found");
+                }
+                var viewDictionary = new ViewDataDictionary<TModel>(ViewData, model);
+                var viewContext = new ViewContext(actionContext, viewResult.View, viewDictionary, TempData, sw, new HtmlHelperOptions());
+                await viewResult.View.RenderAsync(viewContext);
+                return sw.GetStringBuilder().ToString();
+            }
         }
         #endregion
     }

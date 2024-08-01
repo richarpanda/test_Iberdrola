@@ -7,6 +7,6 @@ namespace Manticora.Domain.Interfaces
         Task<int> AddDefenderAsync(int characterId, int gold);
         Task BuyWeaponAsync(int defenderId, int weaponId);
         Task UpdateCharacterGoldAsync(int defenderId, int newGoldAmount);
-        Task<List<Weapon>> GetWeaponsByDefenderIdAsync(int defenderId);
+        List<Weapon> GetWeaponsByDefenderIdAsync(int defenderId);
     }
 }
