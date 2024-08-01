@@ -39,12 +39,12 @@ namespace Manticora.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Weapon>> GetWeaponsByDefenderIdAsync(int defenderId)
+        public List<Weapon> GetWeaponsByDefenderIdAsync(int defenderId)
         {
-            return await _context.Inventories
+            return _context.Inventories
             .Where(i => i.DefenderId == defenderId)
             .Select(i => i.Weapon)
-            .ToListAsync();
+            .ToList();
         }
     }
 }

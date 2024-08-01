@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "y6M2u4uhZxg8/ujpcrFQ7jCdPPK4q/vWxj9y2WTVA3Lm2V33Uv3a6/aZGIWFyIOPMBA+xpqvRJyKQFtyHcS3UA==",
+  "dgSpecHash": "A3QN+//5pUJZIrh//yGJzApXrZtrlMXbZhBFo3Y0IuOT76EalXPxpu2N38bRtsUmWrtHHNtjcnA0x4j1ayOPQg==",
   "success": true,
   "projectFilePath": "C:\\Users\\richa\\Documents\\GitSources\\Optimissa\\test_Iberdrola\\src\\Manticora\\Manticora.Infrastructure\\Manticora.Infrastructure.csproj",
   "expectedPackageFiles": [
@@ -30,6 +30,7 @@
     "C:\\Users\\richa\\.nuget\\packages\\microsoft.extensions.options\\8.0.0\\microsoft.extensions.options.8.0.0.nupkg.sha512",
     "C:\\Users\\richa\\.nuget\\packages\\microsoft.extensions.primitives\\8.0.0\\microsoft.extensions.primitives.8.0.0.nupkg.sha512",
     "C:\\Users\\richa\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
+    "C:\\Users\\richa\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\richa\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\2.1.6\\sqlitepclraw.bundle_e_sqlite3.2.1.6.nupkg.sha512",
     "C:\\Users\\richa\\.nuget\\packages\\sqlitepclraw.core\\2.1.6\\sqlitepclraw.core.2.1.6.nupkg.sha512",
     "C:\\Users\\richa\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.1.6\\sqlitepclraw.lib.e_sqlite3.2.1.6.nupkg.sha512",

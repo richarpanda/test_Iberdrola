@@ -55,9 +55,9 @@ namespace Manticora.Application.Services
             await _inventoryRepository.AddAsync(inventory);
         }
 
-        public async Task<List<Weapon>> GetWeaponsByDefenderIdAsync(int defenderId)
+        public List<Weapon> GetWeaponsByDefenderIdAsync(int defenderId)
         {
-            return await _defenderRepository.GetWeaponsByDefenderIdAsync(defenderId);
+            return _defenderRepository.GetWeaponsByDefenderIdAsync(defenderId);
         }
 
         public async Task UpdateCharacterGoldAsync(int defenderId, int newGoldAmount)

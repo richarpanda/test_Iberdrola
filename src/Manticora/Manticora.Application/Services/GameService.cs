@@ -56,7 +56,7 @@ public class GameService : IGameService
         var weapon = await _context.Weapons.FindAsync(weaponId);
 
         var random = new Random();
-        var distanceToManticore = random.Next(1, 6) * 10; // Distance in multiples of 10 between 10 and 50
+        var distanceToManticore = random.Next(1, 6) * 10;
 
         int manticoreDamage = 0;
         int cityDamage = 0;

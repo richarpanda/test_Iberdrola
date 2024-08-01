@@ -7,39 +7,69 @@
 
 <h2>Iniciar Rondas</h2>
 
-<div>
-    <h3>Attacking Nation: @Model.AttackingNationName</h3>
-    <p>Type: @Model.AttackingNationType</p>
-    <p>Dimension: @Model.AttackingNationDimension</p>
-    <p>Population: @Model.AttackingNationPopulation</p>
+<div class="row">
+    <div class="col-md-6">
+        <h3>Defensores</h3>
+        @foreach (var defender in Model.Defenders)
+        {
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        @defender.Name
+                    </h4>
+                    <div>
+                        <p class="card-text">Species: @defender.Species</p>
+                        <p class="card-text">Type: @defender.Type</p>
+                        <p class="card-text">Gender: @defender.Gender</p>
+                        <p class="card-text">Remaining Shots: @defender.RemainingShots</p>
+                        <ul>
+                            @foreach (var weapon in defender.Inventory)
+                            {
+                                <li>
+                                    <input type="radio" name="weapon_@defender.DefenderId" value="@weapon.WeaponId" /> @weapon.Name - Range: @weapon.Range
+                                </li>
+                            }
+                        </ul>
+                        <button class="btn btn-primary" onclick="attack(@defender.DefenderId)">Atacar</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-md-6">
+        <h3>Nacion atacante: @Model.AttackingNationName</h3>
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text">Type: @Model.AttackingNationType</p>
+                <p class="card-text">Dimension: @Model.AttackingNationDimension</p>
+                <p class="card-text">Population: @Model.AttackingNationPopulation</p>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div>
-    <h3>Defenders</h3>
-    @foreach (var defender in Model.Defenders)
-    {
-        <div>
-            <h4>@defender.Name</h4>
-            <p>Species: @defender.Species</p>
-            <p>Type: @defender.Type</p>
-            <p>Gender: @defender.Gender</p>
-            <p>Remaining Shots: @defender.RemainingShots</p>
-            @* <ul>
-                @foreach (var weapon in defender.Inventory)
-                {
-                    <li>@weapon.Name - Range: @weapon.Range</li>
-                }
-            </ul> *@
-            <button class="btn btn-primary" onclick="attack(@defender.DefenderId)">Attack</button>
+
+<div class="row mt-5">
+    <div class="col-md-12">
+        <h3>Resumen del Ataque</h3>
+        <div id="attackResult">
+            @await Html.PartialAsync("_AttackResult", Model.AttackResult)
         </div>
-    }
+    </div>
 </div>
 
 <script>
     function attack(defenderId) {
-        $.post('@Url.Action("Attack", "Home")', { defenderId: defenderId, gameId: @Model.GameId, weaponId: 1 }, function(data) {
+        console.log("Defender ID:", defenderId);
+        var weaponId = $('input[name="weapon_' + defenderId + '"]:checked').val();
+        if (!weaponId) {
+            alert('Por favor, seleccione un arma.');
+            return;
+        }
+        $.post('@Url.Action("Attack", "Home")', { defenderId: defenderId, gameId: @Model.GameId, weaponId: weaponId }, function (data) {
             if (data.success) {
-                location.reload();
+                $('#attackResult').html(data.partialView);
+                $('#remainingShots_' + defenderId).text(data.remainingShots);
             } else {
                 alert(data.message);
             }

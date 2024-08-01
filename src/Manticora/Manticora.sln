@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manticora.Application", "Manticora.Application\Manticora.Application.csproj", "{58204305-3730-4F71-AFA7-7E1CD03D92C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manticora.Application", "Manticora.Application\Manticora.Application.csproj", "{58204305-3730-4F71-AFA7-7E1CD03D92C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manticora.Domain", "Manticora.Domain\Manticora.Domain.csproj", "{9FA49251-ACD5-4136-A4D7-69DDF9689ADF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manticora.Domain", "Manticora.Domain\Manticora.Domain.csproj", "{9FA49251-ACD5-4136-A4D7-69DDF9689ADF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manticora.Infrastructure", "Manticora.Infrastructure\Manticora.Infrastructure.csproj", "{5FAD5721-A0D2-4182-9B11-6BF5E98BFC22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manticora.Infrastructure", "Manticora.Infrastructure\Manticora.Infrastructure.csproj", "{5FAD5721-A0D2-4182-9B11-6BF5E98BFC22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manticora.API", "Manticora.API\Manticora.API.csproj", "{71B424BC-DDF7-4351-96F7-887F20E45FD8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manticora.API", "Manticora.API\Manticora.API.csproj", "{71B424BC-DDF7-4351-96F7-887F20E45FD8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

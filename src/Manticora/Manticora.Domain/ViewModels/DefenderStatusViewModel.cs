@@ -2,7 +2,7 @@
 
 namespace Manticora.Domain.ViewModels
 {
-    public class DefenderStatus
+    public class DefenderStatusViewModel
     {
         public int DefenderId { get; set; }
         public string Name { get; set; }

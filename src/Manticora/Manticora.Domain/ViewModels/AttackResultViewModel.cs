@@ -11,5 +11,6 @@
         public int WeaponRange { get; set; }
         public int DistanceToManticore { get; set; }
         public string ShotResult { get; set; }
+        public int RemainingShots { get; set; }
     }
 }
