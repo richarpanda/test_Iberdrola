@@ -1,12 +1,3 @@
-C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\obj\Debug\net8.0\Manticora.API.csproj.AssemblyReference.cache
-C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\obj\Debug\net8.0\Manticora.API.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\obj\Debug\net8.0\Manticora.API.AssemblyInfoInputs.cache
-C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\obj\Debug\net8.0\Manticora.API.AssemblyInfo.cs
-C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\obj\Debug\net8.0\Manticora.API.csproj.CoreCompileInputs.cache
-C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\obj\Debug\net8.0\Manticora.API.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\obj\Debug\net8.0\Manticora.API.RazorAssemblyInfo.cache
-C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\obj\Debug\net8.0\Manticora.API.RazorAssemblyInfo.cs
-C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\obj\Debug\net8.0\Manticora.API.sourcelink.json
 C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\bin\Debug\net8.0\appsettings.json
 C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\bin\Debug\net8.0\Manticora.API.staticwebassets.runtime.json
@@ -16,6 +7,8 @@ C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manti
 C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\bin\Debug\net8.0\Manticora.API.dll
 C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\bin\Debug\net8.0\Manticora.API.pdb
 C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\bin\Debug\net8.0\Humanizer.dll
+C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\bin\Debug\net8.0\Microsoft.CodeAnalysis.dll
 C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\bin\Debug\net8.0\Microsoft.CodeAnalysis.CSharp.dll
@@ -29,6 +22,8 @@ C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manti
 C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Sqlite.dll
 C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\bin\Debug\net8.0\Microsoft.Extensions.DependencyModel.dll
 C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\bin\Debug\net8.0\Mono.TextTemplating.dll
+C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
 C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\bin\Debug\net8.0\SQLitePCLRaw.batteries_v2.dll
 C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\bin\Debug\net8.0\SQLitePCLRaw.core.dll
 C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\bin\Debug\net8.0\SQLitePCLRaw.provider.e_sqlite3.dll
@@ -117,6 +112,15 @@ C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manti
 C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\bin\Debug\net8.0\Manticora.Application.pdb
 C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\bin\Debug\net8.0\Manticora.Infrastructure.pdb
 C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\bin\Debug\net8.0\Manticora.Domain.pdb
+C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\obj\Debug\net8.0\Manticora.API.csproj.AssemblyReference.cache
+C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\obj\Debug\net8.0\Manticora.API.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\obj\Debug\net8.0\Manticora.API.AssemblyInfoInputs.cache
+C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\obj\Debug\net8.0\Manticora.API.AssemblyInfo.cs
+C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\obj\Debug\net8.0\Manticora.API.csproj.CoreCompileInputs.cache
+C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\obj\Debug\net8.0\Manticora.API.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\obj\Debug\net8.0\Manticora.API.RazorAssemblyInfo.cache
+C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\obj\Debug\net8.0\Manticora.API.RazorAssemblyInfo.cs
+C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\obj\Debug\net8.0\Manticora.API.sourcelink.json
 C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\obj\Debug\net8.0\staticwebassets\msbuild.Manticora.API.Microsoft.AspNetCore.StaticWebAssets.props
@@ -133,4 +137,3 @@ C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manti
 C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\obj\Debug\net8.0\Manticora.API.pdb
 C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\obj\Debug\net8.0\Manticora.API.genruntimeconfig.cache
 C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\obj\Debug\net8.0\ref\Manticora.API.dll
-C:\Users\richa\Documents\GitSources\Optimissa\test_Iberdrola\src\Manticora\Manticora.API\bin\Debug\net8.0\Newtonsoft.Json.dll
